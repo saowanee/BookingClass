@@ -11,25 +11,26 @@ $objCon = mysqli_connect($host,$user,$password,$dbname);
 	and Password = '".mysqli_real_escape_string($objCon,$_POST['password'])."'";
 	
 	$objQuery = mysqli_query($objCon,$strSQL);
-	$objResult = mysqli_fetch_array($objQuery);
+	$objResult =mysqli_fetch_assoc($objQuery);
+
 	if(!$objResult)
 	{
 			echo "Username and Password Incorrect!";
 	}
 	else
 	{
-			$_SESSION["UserID"] = $objResult["UserID"];
-			$_SESSION["Status"] = $objResult["Status"];
+			$_SESSION["UserID"] = $objResult["userid"];
+			$_SESSION["Status"] = $objResult["user_permission"];
 
 			session_write_close();
 			
-			if($objResult["Status"] == "ADMIN")
+			if($objResult["Status"] == "1")
 			{
 				header("location:admin_page.php");
 			}
 			else
 			{
-				header("location:user_page.php");
+				header("location:user-page.php");
 			}
 	}
 	mysqli_close($objCon);
